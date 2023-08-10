@@ -1,4 +1,4 @@
-Практика:
+#Практика:
 
 class LoggingMixin:
     def __new__(cls, *args, **kwargs):
@@ -72,8 +72,8 @@ planet1.get_count()
 planet2.get_count()
 
 
-homework:
-
+#homework:
+import csv
 class Phone:
     def __init__(self, number, count):
         self.number = number
@@ -91,43 +91,41 @@ class Phone:
     def take_call(self):
         self._count += 1
 
-def amount_of_calls(phones: list) -> int:
-    total_counts = 0
-    for phone in phones:
-        total_counts += phone.get_total_count()
-    filename = 'calls.csv'
-    with open(filename, mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(['Total Calls'])
-        writer.writerow([total_counts])
-    print(f"Total calls: {total_counts}")
-    print(f"total_counts saved to {filename}")
-    return total_counts
+class CallLogger:
+    def __init__(self, phones: list, filename='calls.csv'):
+        self.phones = phones
+        self.filename = filename
 
-a = Phone()
-a.set_number('+38077777777')
-b = Phone()
-b.set_number('+38099999999')
-c = Phone()
-c.set_number('+14752714215')
-a.take_call()
-a.take_call()
-b.take_call()
-c.take_call()
-c.take_call()
-c.take_call()
+    def log_calls(self):
+        with open(self.filename, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['Phone Number', 'Total Calls'])
+            total_counts = 0
+            for phone in self.phones:
+                total_counts += phone.get_total_count()
+                writer.writerow([phone.number, phone.get_total_count()])
+        print(f"Total calls: {total_counts}")
+        print(f"Log saved to {self.filename}")
+        return total_counts
 
-amount_of_calls([a, b, c]) ->  calls.csv
-Total calls: 6
-total_counts saved to calls.csv
-6
+phone1 = Phone('380955701216', 10)
+phone2 = Phone('380677777777', 15)
+
+logger = CallLogger([phone1, phone2])
+
+logger.log_calls()
 
 
-Chess:
 
+#Chess:
+
+
+CHESS_COLORS = ['white', 'black']
 
 class ChessPiece:
     def __init__(self, color='white', x=0, y=0):
+        if color not in CHESS_COLORS:
+            raise ValueError(f"Invalid color. Use one of {CHESS_COLORS}")
         self.color = color
         self.x = x
         self.y = y
@@ -138,12 +136,11 @@ class ChessPiece:
     def get_color(self):
         return self.color
 
-    def set_color(self):
-        sp_color = ['white', 'black']
-        for i in sp_color:
-            if self.color != i:
-                self.color = i
-                break
+    def change_color(self):
+        if self.color == CHESS_COLORS[0]:
+            self.color = CHESS_COLORS[1]
+        elif self.color == CHESS_COLORS[1]:
+            self.color = CHESS_COLORS[0]
         return self.color
 
     def new_position(self, new_x, new_y):
@@ -201,11 +198,11 @@ def get_reachable_pieces(pieces, new_position):
     
     
 pawn = Pawn()
-pawn.set_color()  / black
-pawn.get_color()   / black
+pawn.change_color()
+pawn.get_color()
 pawn.new_position(4, 5) 
-pawn.x / 4
-pawn.y / 5
+pawn.x
+pawn.y
 
 horse = Horse()
 king = King()
@@ -215,10 +212,10 @@ elephant = Elephant()
 
 chesses = [pawn, horse, king, queen, rook, elephant]
 
-get_reachable_pieces(chesses, (6,6))   /  queen, elephant
+print(get_reachable_pieces(chesses, (6,6)))   #queen, elephant
 
 
-Employee:
+#Employee:
 
 class Employee:
 
@@ -270,5 +267,4 @@ print(recruiter.position())
 print(recruiter.position())
 print(developer.work())
 print(recruiter == developer)
-print(recruiter >= developer)
-print(recruiter != developer)
+print(recruiter < developer)
