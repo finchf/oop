@@ -17,8 +17,11 @@ class Employee:
     def work(self):
         return 'I come to the office.'
 
-    def check_salary(self, days):
-        return int(self._day_salary * (days / 7 * 5))
+    def check_salary(self, workdays):
+        workdays_per_week = 5  # Рабочих дней в неделю
+        workdays_per_month = workdays_per_week * 4  # Рабочих дней в месяце
+        return int(self._day_salary * (workdays / workdays_per_month))
+
 
     def __str__(self):
         return f'{self.__class__.__name__}: {self.name}'
