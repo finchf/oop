@@ -18,8 +18,8 @@ class Employee:
         return 'I come to the office.'
 
     def check_salary(self, workdays):
-        workdays_per_week = 5  # Рабочих дней в неделю
-        workdays_per_month = workdays_per_week * 4  # Рабочих дней в месяце
+        workdays_per_week = 5
+        workdays_per_month = workdays_per_week * 4
         return int(self._day_salary * (workdays / workdays_per_month))
 
 
